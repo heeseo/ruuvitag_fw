@@ -278,7 +278,23 @@ static void advertising_init(void)
 uint32_t bluetooth_stack_init(void)
 {
     uint32_t err_code;
+    
+///method 1
+    ble_gap_addr_t m_address_1;
+    m_address_1.addr_type = BLE_GAP_ADDR_TYPE_PUBLIC;
 
+    m_address_1.addr[0] = 1;
+    m_address_1.addr[1] = 1;
+    sd_ble_gap_addr_set(&m_address_1);
+
+///method 2
+    ble_gap_addr_t gap_address;
+    gap_address.addr_type = BLE_GAP_ADDR_TYPE_PUBLIC;
+    memcpy(&gap_address.addr, "\x62\x52\x42\x09\xe7\x34", sizeof(gap_address.addr));
+    err_code = sd_ble_gap_addr_set(&gap_address);
+    APP_ERROR_CHECK(err_code);
+
+ 
     nrf_clock_lf_cfg_t clock_lf_cfg = NRF_CLOCK_LFCLKSRC;
     NRF_LOG_DEBUG("Softdevice handler init start\r\n");
     NRF_LOG_FLUSH();
